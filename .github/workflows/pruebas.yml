@@ -25,4 +25,18 @@ jobs:
       - name: Construyendo y probando el código
         run: |
           chmod +x gradlew        
-          ./gradlew build
+          ./gradlew assemble
+          
+  Test:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_LOGIN: ${{ github.actor }}
+      GITHUB_PACKAGES: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+    needs: Build
+    steps:
+      
+      - name: Probando el código
+        run: |
+          chmod +x gradlew        
+          ./gradlew test
